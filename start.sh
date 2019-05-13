@@ -1,5 +1,5 @@
 NAME=fileapp
-ENV=dev
+ENV=prod
 CLUSTER=1
 
 pm2 stop fileapp
