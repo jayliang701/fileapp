@@ -1,0 +1,19 @@
+{
+  "name": "fileapp",
+  "version": "1.0.0",
+  "description": "The example mini skeleton codes of weroll application.",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "cp-file": "^7.0.0",
+    "weroll": "^1.5.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "node main.js -env=localdev -debug"
+  },
+  "author": "Jay Liang",
+  "license": "MIT"
+}

@@ -1,0 +1,48 @@
+{% extends 'template/user_common_page.html' %}
+
+{% block head_custom_style %}
+{{ super() }}
+<style>
+    div.main { padding: 10px; }
+    button, select { padding:5px; }
+    #time { width: 400px; display: inline-block; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>Index Page</h1>
+    <div>
+        <label>Server Time: </label>
+        <span id="time">{{now}}</span>
+        <select id="format">
+            <option value="1">timestamp</option>
+            <option value="2" selected>string</option>
+            <option value="3">invalid</option>
+        </select>
+        <button onclick="doUpdate()">update</button>
+    </div>
+    <div>
+        <p id="info"></p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer_custom_script %}
+{{ super() }}
+<script>
+
+    function doUpdate() {
+        $('#info').html('>> call api...');
+        var format = parseInt($('#format').val());
+        $callAPI("system.now", { format:format }, function(data) {
+            $('#time').html(data.time);
+            $('#info').html('>> call api success!');
+        }, function(code, err) {
+            $('#info').html('>> code: ' + code + ', err: ' + err.toString());
+        });
+    }
+
+</script>
+{% endblock %}
