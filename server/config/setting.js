@@ -64,7 +64,7 @@ module.exports = {
 
     //site domain
     site:"http://${host}:${port}/",
-    siteName:"filapp",
+    siteName:"fileapp",
     /* mail service config
     mail: {
         stamp: {
