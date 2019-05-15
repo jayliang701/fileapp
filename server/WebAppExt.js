@@ -59,8 +59,13 @@ exports.extend = function(App) {
 
         await deleteFile(file);
 
-        res.sendFile(tmp);
+        res.sendFile(tmp, (err) => {
+			if (err) {
+                console.error(err);
+            } else {
+                deleteFile(tmp);
+            }
+		});
 
-        deleteFile(tmp);
     });
 }
