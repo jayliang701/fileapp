@@ -40,32 +40,42 @@ exports.extend = function(App) {
             resolve(user);
         });
     };
+    
+    App.get('/file/tmp/:name', (req, res) => {
+        let file = path.resolve(tmpFolder, req.params.name);
+        res.sendFile(file, (err) => {
+            if (err) {
+                res.writeHead(404);
+                return res.end(err.message);
+            }
+            deleteFile(file);
+        });
+    });
 
 
     App.get('/file/random', async (req, res) => {
         let files = await readFileList(folder);
 
         if (files.length <= 0) {
-            res.writeHead(200);
+            res.writeHead(200, {
+                'Content-Type': 'text/plain; charset=utf-8',
+            });
             return res.end('');
         }
         
         let index = Math.floor(Math.random() * files.length);
-        let file = files[index];
-        let tmp = path.resolve(tmpFolder, 'tmp-' + Utils.randomString(12) + '-' + file);
-        file = path.resolve(folder, file);
+        let tmpFilename = 'tmp-' + Utils.randomString(12) + '-' + files[index];
+        let tmp = path.resolve(tmpFolder, tmpFilename);
+        let file = path.resolve(folder, files[index]);
 
         await cpFile(file, tmp);
 
         await deleteFile(file);
 
-        res.sendFile(tmp, (err) => {
-			if (err) {
-                console.error(err);
-            } else {
-                deleteFile(tmp);
-            }
-		});
+        res.writeHead(200, {
+            'Content-Type': 'text/plain; charset=utf-8',
+        });
 
+        res.end(global.SETTING.site + 'file/tmp/' + tmpFilename);
     });
 }
